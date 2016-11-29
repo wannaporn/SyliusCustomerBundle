@@ -11,15 +11,16 @@
 
 namespace Sylius\Bundle\CustomerBundle\Form\Type;
 
+use Sylius\Bundle\ResourceBundle\Form\EventSubscriber\AddCodeFormSubscriber;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * User group form type.
- *
  * @author Paweł Jędrzejewski <pawel@sylius.org>
+ * @author Grzegorz Sadowski <grzegorz.sadowski@lakion.com>
  */
-class GroupType extends AbstractResourceType
+class CustomerGroupType extends AbstractResourceType
 {
     /**
      * {@inheritdoc}
@@ -27,8 +28,9 @@ class GroupType extends AbstractResourceType
     public function buildForm(FormBuilderInterface $builder, array $options = [])
     {
         $builder
-            ->add('name', 'text', [
-                'label' => 'sylius.form.group.name',
+            ->addEventSubscriber(new AddCodeFormSubscriber())
+            ->add('name', TextType::class, [
+                'label' => 'sylius.form.customer_group.name',
             ])
         ;
     }
@@ -36,8 +38,8 @@ class GroupType extends AbstractResourceType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'sylius_group';
+        return 'sylius_customer_group';
     }
 }
